@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studi Kasus: Kimia Farma Performance Analytics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <h1 class="hero-title">Kimia Farma Performance Analytics</h1>
+            <p class="hero-subtitle">Analisis Kinerja Bisnis Tahun 2020-2023</p>
+            <a href="index.html" class="button">Kembali ke Beranda</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section-card">
+            <h2>Ringkasan Proyek</h2>
+            <p><!-- PT Kimia Farma, sebagai salah satu perusahaan farmasi terkemuka di Indonesia, perlu secara rutin mengevaluasi kinerja bisnisnya untuk mengidentifikasi tren, 
+peluang, dan area yang memerlukan perbaikan. Periode 2020-2023 merupakan waktu yang penting untuk dianalisis, mengingat adanya berbagai tantangan dan perubahan dalam industri farmasi, termasuk dampak pandemi COVID-19.
+              
+              Proyek ini bertujuan untuk mengevaluasi kinerja bisnis Kimia Farma menggunakan pendekatan Big Data Analytics. Hasil analisis ini akan digunakan untuk 
+memberikan wawasan yang mendalam kepada manajemen Kimia Farma, sehingga mereka dapat membuat keputusan bisnis yang lebih strategis.--></p>
+        </section>
+
+        <section class="section-card">
+            <h2>Dashboard Interaktif</h2>
+            <p>Dashboard ini dibuat dengan Looker Studio untuk memvisualisasikan tren penjualan, profitabilitas, dan performa cabang. Silakan berinteraksi dengan dashboard di bawah ini.</p>
+            <!-- Ganti src dengan link EMBED Looker Studio Anda -->
+            <iframe width="100%" height="800" src="https://lookerstudio.google.com/reporting/b9b5e387-85a0-4efe-b592-f7340a4dc2f6" frameborder="0" style="border:0; border-radius:6px; margin-top:20px;" allowfullscreen></iframe>
+        </section>
+
+        <section class="section-card">
+            <h2>Proses Teknis: SQL di BigQuery</h2>
+            <p>Data dari berbagai sumber digabungkan dan ditransformasi menggunakan SQL di Google BigQuery untuk membuat tabel analisis utama.</p>
+            <pre style="background:#0d1117; color:#c9d1d9; padding:15px; border-radius:5px; overflow-x:auto;"><code>
+-- Kimia Farma Big Data Analytics Project Based Internship Program
+-- Performance Analytics Analisis kinerja bisnis Kimia Farma Tahun 2020-2023
+              
+-- Membuat atau menggantikan tabel bernama 'tabel_analisis' di dataset 'kimia_farma'
+CREATE OR REPLACE TABLE `kimia_farma.tabel_analisis` AS
+SELECT
+    ft.transaction_id,                  -- Mengambil kolom ID transaksi dari tabel transaksi
+    ft.date,                            -- Mengambil tanggal transaksi
+    kc.branch_id,                       -- Mengambil ID cabang dari tabel kantor cabang
+    kc.branch_name,                     -- Mengambil nama cabang
+    kc.kota,                            -- Mengambil nama kota cabang
+    kc.provinsi,                        -- Mengambil nama provinsi cabang
+    kc.rating AS rating_cabang,         -- Rating cabang, di-alias sebagai rating_cabang
+    ft.customer_name,                   -- Mengambil nama customer dari tabel transaksi
+    ft.product_id,                      -- Mengambil ID produk yang dibeli
+    p.product_name,                     -- Mengambil nama produk dari tabel produk
+    p.price as actual_price,            -- Harga produk sebelum diskon
+    ft.discount_percentage,             -- Persentase diskon dari tabel transaksi
+    -- Menentukan persentase gross laba berdasarkan rentang harga produk
+    CASE
+        WHEN p.price <= 50000 THEN 0.10                         -- Jika harga <= 50000, maka laba 10%
+        WHEN p.price > 50000 AND p.price <= 100000 THEN 0.15    -- Jika harga > 50000 dan <= 100000, maka laba 15%
+        WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20   -- Jika harga > 100000 dan <= 300000, maka laba 20%
+        WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25   -- Jika harga > 300000 dan <= 500000, maka laba 25%
+        ELSE 0.30                                               -- Jika harga > 500000, maka laba 30%
+    END AS persentase_gross_laba,
+    -- Menghitung nett_sales (harga setelah diskon)
+    p.price * (1 - ft.discount_percentage) AS nett_sales,
+    -- Menghitung nett_profit (laba bersih = nett_sales * persentase laba)
+    (p.price * (1 - ft.discount_percentage)) * CASE
+        WHEN p.price <= 50000 THEN 0.10
+        WHEN p.price > 50000 AND p.price <= 100000 THEN 0.15
+        WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20
+        WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25
+        ELSE 0.30
+    END AS nett_profit,                -- Memberi alias nett_profit untuk hasil perhitungan keuntungan
+    ft.rating AS rating_transaksi      -- Memberi alias pada kolom rating menjadi rating_transaksi
+FROM    --  Mengambil data dari tabel transaksi
+    `kimia_farma.kf_final_transaction` ft  
+JOIN    --  Join dengan tabel kantor cabang berdasarkan branch_id
+    `kimia_farma.kf_kantor_cabang` kc       
+    ON ft.branch_id = kc.branch_id          
+JOIN    --  Join dengan tabel produk berdasarkan product_id
+    `kimia_farma.kf_product` p             
+    ON ft.product_id = p.product_id;
+</code></pre>
+        </section>
+        
+        <section class="section-card">
+            <h2>Analisis & Rekomendasi Bisnis</h2>
+            <p><!-- Masukkan poin-poin analisis kunci Anda (misal tentang tren pendapatan) di sini. --></p>
+            <p><!-- Masukkan tabel/poin-poin rekomendasi bisnis Anda di sini. --></p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Alex Puji Firmansyah.</p>
+        </div>
+    </footer>
+</body>
+</html>
