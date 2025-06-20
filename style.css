@@ -1,4 +1,4 @@
-/* style.css - Gemini Dark Mode Inspired */
+/* style.css - Gemini Dark Mode Inspired (Final Version) */
 
 /* == 1. PALET WARNA & FONT DASAR (GEMINI STYLE) == */
 :root {
@@ -24,11 +24,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
-/* Disarankan menambahkan font Roboto di setiap file HTML Anda di dalam <head> */
-/* <link rel="preconnect" href="https://fonts.googleapis.com"> */
-/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> */
-/* <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> */
 
 .container {
     width: 90%;
@@ -180,4 +175,57 @@ pre code {
 }
 .recommendation-table td:first-child {
     color: var(--accent-blue);
+}
+
+/* == 8. TECH STACK LOGO SECTION == */
+.tech-stack {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+}
+
+.tech-stack h3 {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.logo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px 40px; /* Jarak vertikal dan horizontal */
+}
+
+.logo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px; /* Jarak antara logo dan teks */
+    transition: transform 0.2s ease-in-out;
+    width: 100px; /* Memberi lebar tetap agar rapi */
+}
+
+.logo-item:hover {
+    transform: scale(1.1);
+}
+
+.logo-item svg {
+    width: 48px;
+    height: 48px;
+    fill: var(--text-secondary); /* Warna abu-abu untuk ikon */
+    transition: fill 0.2s ease-in-out;
+}
+
+.logo-item:hover svg {
+    fill: var(--accent-blue); /* Warna biru saat hover */
+}
+
+.logo-item span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
