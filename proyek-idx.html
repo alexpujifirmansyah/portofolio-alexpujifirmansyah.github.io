@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studi Kasus: Data Warehouse & ETL untuk Klien ID/X Partners</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <h1 class="hero-title">Data Warehouse & ETL untuk Klien ID/X Partners</h1>
+            <p class="hero-subtitle">Membangun Fondasi Data untuk Industri Perbankan</p>
+            <a href="index.html" class="button">Kembali ke Beranda</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section-card">
+            <h2>Latar Belakang & Tantangan</h2>
+            <p>Salah satu klien ID/X Partners di industri perbankan mengalami kesulitan dalam mengekstrak dan menganalisis data secara bersamaan dari berbagai sumber (Excel, CSV, SQL Server). Hal ini menyebabkan keterlambatan dalam pelaporan dan pengambilan keputusan. Tantangannya adalah mengintegrasikan sumber data yang berbeda, membersihkan dan mentransformasi data, serta membangun data warehouse yang efisien.</p>
+        </section>
+
+        <section class="section-card">
+            <h2>Solusi: Arsitektur Data Warehouse</h2>
+            <p>Saya merancang dan membuat sebuah Data Warehouse (DWH) menggunakan SQL Server dengan skema bintang (star schema). DWH ini terdiri dari tabel fakta (FactTransaction) dan beberapa tabel dimensi (DimCustomer, DimAccount, DimBranch) untuk optimalisasi kueri analisis.</p>
+            <img src="diagram-tabel-idx.png" alt="Diagram Tabel Data Warehouse" style="width:100%; max-width:700px; display:block; margin:20px auto; border-radius:6px;">
+            
+            <h3>Proses Pembuatan Tabel Dimensi & Fakta (SQL)</h3>
+            <p>Berikut adalah contoh kode SQL untuk membuat tabel dimensi `DimCustomer', 'DimAccount', 'DimBranch', dan tabel fakta `FactTransaction`.</p>
+            <pre style="background:#0d1117; color:#c9d1d9; padding:15px; border-radius:5px; overflow-x:auto;"><code>
+-- Tabel DimCustomer
+CREATE TABLE DimCustomer (
+    Customer_Id INT PRIMARY KEY NOT NULL, -- Primary Key
+    Customer_Name VARCHAR(50) NOT NULL,
+    Address VARCHAR(50) NOT NULL,
+    City_Name VARCHAR(50) NOT NULL,
+    State_Name VARCHAR(50) NOT NULL,
+    Age int NOT NULL,
+    Gender VARCHAR(50) NOT NULL,
+    Email VARCHAR(50) NOT NULL
+);
+
+-- Tabel DimAccount
+CREATE TABLE DimAccount (
+    Account_Id INT PRIMARY KEY NOT NULL, -- Primary Key
+    Customer_Id INT NOT NULL, -- Foreign Key ke DimCustomer
+    Account_Type VARCHAR(50) NOT NULL,
+    Balance INT NOT NULL,
+    Date_Opened DATETIME NOT NULL,
+    Status VARCHAR(50) NOT NULL,
+	FOREIGN KEY (Customer_id) REFERENCES DimCustomer(Customer_Id)
+	
+);
+
+-- Tabel DimBranch
+CREATE TABLE DimBranch (
+    Branch_Id INT PRIMARY KEY NOT NULL, -- Primary Key
+    Branch_Name VARCHAR(50) NOT NULL,
+    Branch_Location VARCHAR(50) NOT NULL
+);
+
+-- Tabel FactTransaction
+CREATE TABLE FactTransaction (
+    Transaction_Id INT PRIMARY KEY NOT NULL, -- Primary Key
+    Account_Id INT NOT NULL, -- Foreign Key ke DimAccount
+    Transaction_Date DATETIME2 NOT NULL,
+    Amount DECIMAL NOT NULL,
+    Transaction_Type VARCHAR(50) NOT NULL,
+    Branch_Id INT NOT NULL, -- Foreign Key ke DimBranch
+
+	FOREIGN KEY (Account_Id) REFERENCES DimAccount(Account_Id),
+	FOREIGN KEY (Branch_Id) REFERENCES DimBranch(Branch_Id)
+);
+            </code></pre>
+        </section>
+
+        <section class="section-card">
+            <h2>Proses ETL (Extract, Transform, Load) dengan Talend</h2>
+            <p>Untuk mengotomatisasi aliran data dari berbagai sumber ke dalam Data Warehouse, saya membangun ETL Job menggunakan Talend. Job ini menggabungkan data dari file Excel, CSV, dan database, melakukan transformasi seperti standarisasi format, dan membersihkan data duplikat sebelum memuatnya ke tabel-tabel di DWH.</p>
+            <img src="proses-etl-idx.png" alt="Proses ETL Job di Talend" style="width:100%; max-width:800px; display:block; margin:20px auto; border-radius:6px;">
+        </section>
+        
+        <section class="section-card">
+            <h2>Otomatisasi Laporan dengan Stored Procedure</h2>
+            <p>Untuk memudahkan tim analisis mendapatkan ringkasan data harian dengan cepat, saya membuat Stored Procedure `DailyTransaction`. Prosedur ini dapat dipanggil dengan parameter rentang tanggal untuk menghasilkan laporan jumlah transaksi dan total nominalnya.</p>
+             <pre style="background:#0d1117; color:#c9d1d9; padding:15px; border-radius:5px; overflow-x:auto;"><code>
+CREATE PROCEDURE DailyTransaction
+    @start_date DATE,
+    @end_date DATE
+AS
+BEGIN
+    SELECT
+        CAST(Transaction_Date AS DATE) AS Date,
+        COUNT(*) AS TotalTransactions,
+        SUM(Amount) AS TotalAmount
+    FROM
+        FactTransaction
+    WHERE
+        Transaction_Date BETWEEN @start_date AND @end_date
+    GROUP BY
+        CAST(Transaction_Date AS DATE)
+    ORDER BY
+        Date;
+END
+
+-- Contoh Eksekusi
+EXEC DailyTransaction '2024-01-01', '2024-01-31'
+            </code></pre>
+            <p>Video penjelasan proyek ini dapat dilihat di YouTube:</p>
+            <!-- Ganti src dengan link EMBED video YouTube Anda -->
+            <iframe width="100%" height="400" src="https://www.youtube.com/embed/gjwpr0888dM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:6px; margin-top:20px;"></iframe>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Alex Puji Firmansyah.</p>
+        </div>
+    </footer>
+</body>
+</html>
