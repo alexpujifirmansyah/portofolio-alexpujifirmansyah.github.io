@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studi Kasus: Kimia Farma Performance Analytics</title>
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,20 +25,14 @@
         <section class="section-card">
             <h2>Dashboard Interaktif</h2>
             <p>Dashboard ini dibuat dengan Looker Studio untuk memvisualisasikan tren penjualan, profitabilitas, dan performa cabang. Silakan berinteraksi dengan dashboard di bawah ini.</p>
-            <iframe 
-                width="100%" 
-                height="800" 
-                src="https://lookerstudio.google.com/embed/reporting/b9b5e387-85a0-4efe-b592-f7340a4dc2f6" 
-                frameborder="0" 
-                style="border:0; border-radius:12px; margin-top:20px;" 
-                allowfullscreen>
-            </iframe>
+            <iframe width="100%" height="800" src="https://lookerstudio.google.com/embed/reporting/b9b5e387-85a0-4efe-b592-f7340a4dc2f6" frameborder="0" style="border:0; border-radius:6px; margin-top:20px;" allowfullscreen></iframe>
         </section>
 
         <section class="section-card">
             <h2>Proses Teknis: SQL di BigQuery</h2>
             <p>Data dari berbagai sumber digabungkan dan ditransformasi menggunakan SQL di Google BigQuery untuk membuat tabel analisis utama.</p>
-            <pre><code>-- Kimia Farma Big Data Analytics Project Based Internship Program
+            <pre><code>
+-- Kimia Farma Big Data Analytics Project Based Internship Program
 -- Performance Analytics Analisis kinerja bisnis Kimia Farma Tahun 2020-2023
               
 -- Membuat atau menggantikan tabel bernama 'tabel_analisis' di dataset 'kimia_farma'
@@ -64,11 +52,11 @@ SELECT
     ft.discount_percentage,             -- Persentase diskon dari tabel transaksi
     -- Menentukan persentase gross laba berdasarkan rentang harga produk
     CASE
-        WHEN p.price <= 50000 THEN 0.10
-        WHEN p.price > 50000 AND p.price <= 100000 THEN 0.15
-        WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20
-        WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25
-        ELSE 0.30
+        WHEN p.price <= 50000 THEN 0.10                         -- Jika harga <= 50000, maka laba 10%
+        WHEN p.price > 50000 AND p.price <= 100000 THEN 0.15    -- Jika harga > 50000 dan <= 100000, maka laba 15%
+        WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20   -- Jika harga > 100000 dan <= 300000, maka laba 20%
+        WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25   -- Jika harga > 300000 dan <= 500000, maka laba 25%
+        ELSE 0.30                                               -- Jika harga > 500000, maka laba 30%
     END AS persentase_gross_laba,
     -- Menghitung nett_sales (harga setelah diskon)
     p.price * (1 - ft.discount_percentage) AS nett_sales,
@@ -79,21 +67,22 @@ SELECT
         WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20
         WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25
         ELSE 0.30
-    END AS nett_profit,
-    ft.rating AS rating_transaksi
-FROM
+    END AS nett_profit,                -- Memberi alias nett_profit untuk hasil perhitungan keuntungan
+    ft.rating AS rating_transaksi      -- Memberi alias pada kolom rating menjadi rating_transaksi
+FROM    --  Mengambil data dari tabel transaksi
     `kimia_farma.kf_final_transaction` ft  
-JOIN
-    `kimia_farma.kf_kantor_cabang` kc ON ft.branch_id = kc.branch_id          
-JOIN
-    `kimia_farma.kf_product` p ON ft.product_id = p.product_id;
+JOIN    --  Join dengan tabel kantor cabang berdasarkan branch_id
+    `kimia_farma.kf_kantor_cabang` kc       
+    ON ft.branch_id = kc.branch_id          
+JOIN    --  Join dengan tabel produk berdasarkan product_id
+    `kimia_farma.kf_product` p             
+    ON ft.product_id = p.product_id;
 </code></pre>
         </section>
         
         <section class="section-card">
             <h2>Analisis & Rekomendasi Bisnis</h2>
             <p>Berdasarkan analisis data yang telah dilakukan, ditemukan beberapa wawasan kunci yang mengarah pada rekomendasi strategis untuk meningkatkan kinerja bisnis Kimia Farma. Rekomendasi ini dirancang untuk mengatasi tantangan spesifik dan memanfaatkan peluang yang ada.</p>
-            
             <table class="recommendation-table">
                 <thead>
                     <tr>
