@@ -3,132 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studi Kasus: Data Warehouse & ETL untuk Klien ID/X Partners</title>
-
+    <title>Studi Kasus: Kimia Farma Performance Analytics</title>
+    
     <!-- Google Fonts: Roboto & Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Fira+Code&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="hero">
         <div class="container">
-            <h1 class="hero-title">Data Warehouse & ETL untuk Klien ID/X Partners</h1>
-            <p class="hero-subtitle">Membangun Fondasi Data untuk Industri Perbankan</p>
+            <h1 class="hero-title">Kimia Farma Performance Analytics</h1>
+            <p class="hero-subtitle">Analisis Kinerja Bisnis Tahun 2020-2023</p>
             <a href="index.html" class="button">Kembali ke Beranda</a>
         </div>
     </header>
 
     <main class="container">
         <section class="section-card">
-            <h2>Latar Belakang & Tantangan</h2>
-            <p>Salah satu klien ID/X Partners di industri perbankan mengalami kesulitan dalam mengekstrak dan menganalisis data secara bersamaan dari berbagai sumber (Excel, CSV, SQL Server). Hal ini menyebabkan keterlambatan dalam pelaporan dan pengambilan keputusan. Tantangannya adalah mengintegrasikan sumber data yang berbeda, membersihkan dan mentransformasi data, serta membangun data warehouse yang efisien.</p>
+            <h2>Ringkasan Proyek</h2>
+            <p>PT Kimia Farma, sebagai salah satu perusahaan farmasi terkemuka di Indonesia, perlu secara rutin mengevaluasi kinerja bisnisnya untuk mengidentifikasi tren, peluang, dan area yang memerlukan perbaikan. Periode 2020-2023 merupakan waktu yang penting untuk dianalisis, mengingat adanya berbagai tantangan dan perubahan dalam industri farmasi, termasuk dampak pandemi COVID-19.</p>
+            <p>Proyek ini bertujuan untuk mengevaluasi kinerja bisnis Kimia Farma menggunakan pendekatan Big Data Analytics. Hasil analisis ini akan digunakan untuk memberikan wawasan yang mendalam kepada manajemen Kimia Farma, sehingga mereka dapat membuat keputusan bisnis yang lebih strategis.</p>
         </section>
 
         <section class="section-card">
-            <h2>Solusi: Arsitektur Data Warehouse</h2>
-            <p>Saya merancang dan membuat sebuah Data Warehouse (DWH) menggunakan SQL Server dengan skema bintang (star schema). DWH ini terdiri dari tabel fakta (FactTransaction) dan beberapa tabel dimensi (DimCustomer, DimAccount, DimBranch) untuk optimalisasi kueri analisis.</p>
-            <img src="diagram-tabel-idx.png" alt="Diagram Tabel Data Warehouse" style="width:100%; max-width:700px; display:block; margin:20px auto; border-radius:12px;">
-            
-            <h3>Proses Pembuatan Tabel (SQL)</h3>
-            <p>Berikut adalah contoh kode SQL untuk membuat tabel-tabel dimensi dan fakta.</p>
+            <h2>Dashboard Interaktif</h2>
+            <p>Dashboard ini dibuat dengan Looker Studio untuk memvisualisasikan tren penjualan, profitabilitas, dan performa cabang. Silakan berinteraksi dengan dashboard di bawah ini.</p>
+            <iframe 
+                width="100%" 
+                height="800" 
+                src="https://lookerstudio.google.com/embed/reporting/b9b5e387-85a0-4efe-b592-f7340a4dc2f6" 
+                frameborder="0" 
+                style="border:0; border-radius:12px; margin-top:20px;" 
+                allowfullscreen>
+            </iframe>
+        </section>
+
+        <section class="section-card">
+            <h2>Proses Teknis: SQL di BigQuery</h2>
+            <p>Data dari berbagai sumber digabungkan dan ditransformasi menggunakan SQL di Google BigQuery untuk membuat tabel analisis utama.</p>
             <pre><code>
--- Tabel DimCustomer
-CREATE TABLE DimCustomer (
-    Customer_Id INT PRIMARY KEY NOT NULL,
-    Customer_Name VARCHAR(50) NOT NULL,
-    Address VARCHAR(50) NOT NULL,
-    City_Name VARCHAR(50) NOT NULL,
-    State_Name VARCHAR(50) NOT NULL,
-    Age INT NOT NULL,
-    Gender VARCHAR(50) NOT NULL,
-    Email VARCHAR(50) NOT NULL
-);
-
--- Tabel DimAccount
-CREATE TABLE DimAccount (
-    Account_Id INT PRIMARY KEY NOT NULL,
-    Customer_Id INT NOT NULL,
-    Account_Type VARCHAR(50) NOT NULL,
-    Balance INT NOT NULL,
-    Date_Opened DATETIME NOT NULL,
-    Status VARCHAR(50) NOT NULL,
-    FOREIGN KEY (Customer_id) REFERENCES DimCustomer(Customer_Id)
-);
-
--- Tabel DimBranch
-CREATE TABLE DimBranch (
-    Branch_Id INT PRIMARY KEY NOT NULL,
-    Branch_Name VARCHAR(50) NOT NULL,
-    Branch_Location VARCHAR(50) NOT NULL
-);
-
--- Tabel FactTransaction
-CREATE TABLE FactTransaction (
-    Transaction_Id INT PRIMARY KEY NOT NULL,
-    Account_Id INT NOT NULL,
-    Transaction_Date DATETIME2 NOT NULL,
-    Amount DECIMAL NOT NULL,
-    Transaction_Type VARCHAR(50) NOT NULL,
-    Branch_Id INT NOT NULL,
-    FOREIGN KEY (Account_Id) REFERENCES DimAccount(Account_Id),
-    FOREIGN KEY (Branch_Id) REFERENCES DimBranch(Branch_Id)
-);
-            </code></pre>
-        </section>
-
-        <section class="section-card">
-            <h2>Proses ETL (Extract, Transform, Load) dengan Talend</h2>
-            <p>Untuk mengotomatisasi aliran data dari berbagai sumber ke dalam Data Warehouse, saya membangun ETL Job menggunakan Talend. Job ini menggabungkan data dari file Excel, CSV, dan database, melakukan transformasi seperti standarisasi format, dan membersihkan data duplikat sebelum memuatnya ke tabel-tabel di DWH.</p>
-            <img src="proses-etl-idx.png" alt="Proses ETL Job di Talend" style="width:100%; max-width:800px; display:block; margin:20px auto; border-radius:12px;">
+-- Membuat atau menggantikan tabel bernama 'tabel_analisis' di dataset 'kimia_farma'
+CREATE OR REPLACE TABLE `kimia_farma.tabel_analisis` AS
+SELECT
+    ft.transaction_id,
+    ft.date,
+    kc.branch_id,
+    kc.branch_name,
+    kc.kota,
+    kc.provinsi,
+    kc.rating AS rating_cabang,
+    ft.customer_name,
+    ft.product_id,
+    p.product_name,
+    p.price as actual_price,
+    ft.discount_percentage,
+    CASE
+        WHEN p.price <= 50000 THEN 0.10
+        WHEN p.price > 50000 AND p.price <= 100000 THEN 0.15
+        WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20
+        WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25
+        ELSE 0.30
+    END AS persentase_gross_laba,
+    p.price * (1 - ft.discount_percentage) AS nett_sales,
+    (p.price * (1 - ft.discount_percentage)) * CASE
+        WHEN p.price <= 50000 THEN 0.10
+        WHEN p.price > 50000 AND p.price <= 100000 THEN 0.15
+        WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20
+        WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25
+        ELSE 0.30
+    END AS nett_profit,
+    ft.rating AS rating_transaksi
+FROM
+    `kimia_farma.kf_final_transaction` ft  
+JOIN
+    `kimia_farma.kf_kantor_cabang` kc ON ft.branch_id = kc.branch_id          
+JOIN
+    `kimia_farma.kf_product` p ON ft.product_id = p.product_id;
+</code></pre>
         </section>
         
         <section class="section-card">
-            <h2>Otomatisasi Laporan dengan Stored Procedure</h2>
-            <p>Untuk memudahkan tim analisis mendapatkan ringkasan data dengan cepat, saya membuat dua Stored Procedure utama: `DailyTransaction` untuk ringkasan transaksi harian dan `BalancePerCustomer` untuk melihat saldo terkini setiap nasabah.</p>
-             <pre><code>
--- Stored Procedure 1: DailyTransaction
-CREATE PROCEDURE DailyTransaction
-    @start_date DATE,
-    @end_date DATE
-AS
-BEGIN
-    SELECT
-        CAST(Transaction_Date AS DATE) AS Date,
-        COUNT(*) AS TotalTransactions,
-        SUM(Amount) AS TotalAmount
-    FROM FactTransaction
-    WHERE Transaction_Date BETWEEN @start_date AND @end_date
-    GROUP BY CAST(Transaction_Date AS DATE)
-    ORDER BY Date;
-END;
--- Contoh Eksekusi: EXEC DailyTransaction '2024-01-01', '2024-01-31';
-
--- Stored Procedure 2: BalancePerCustomer
-CREATE PROCEDURE BalancePerCustomer
-    @name NVARCHAR(100)
-AS
-BEGIN
-    SELECT 
-        c.Customer_Name,
-        a.Account_Type,
-        a.Balance,
-        a.Balance + SUM(CASE WHEN t.Transaction_Type = 'Deposit' THEN t.amount ELSE -t.amount END) AS CurrentBalance
-    FROM DimAccount a
-    INNER JOIN DimCustomer c ON a.customer_id = c.Customer_Id
-    LEFT JOIN FactTransaction t ON a.account_id = t.Account_Id
-    WHERE 
-        c.Customer_Name = @name AND
-        a.status = 'active'
-    GROUP BY 
-        c.Customer_Name, a.Account_Type, a.Balance;
-END;
--- Contoh Eksekusi: EXEC BalancePerCustomer 'SHELLY JUWITA';
-            </code></pre>
-            <p>Video penjelasan proyek ini dapat dilihat di YouTube:</p>
-            <iframe width="100%" height="400" src="https://www.youtube.com/embed/gjwpr0888dM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:12px; margin-top:20px;"></iframe>
+            <h2>Analisis & Rekomendasi Bisnis</h2>
+            <p>Berdasarkan analisis data yang telah dilakukan, ditemukan beberapa wawasan kunci yang mengarah pada rekomendasi strategis untuk meningkatkan kinerja bisnis Kimia Farma. Rekomendasi ini dirancang untuk mengatasi tantangan spesifik dan memanfaatkan peluang yang ada.</p>
+            <table class="recommendation-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Area Fokus</th>
+                        <th>Tindakan yang Direkomendasikan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td>Stabilitas Laba Bersih</td>
+                        <td>Lakukan evaluasi menyeluruh terhadap strategi profit selama pandemi, optimalkan biaya distribusi dan operasional, serta siapkan strategi adaptif untuk merespon perubahan perilaku konsumen.</td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td>Perbaikan Proses Transaksi</td>
+                        <td>Audit cabang dengan jumlah transaksi rendah, tingkatkan pelatihan staf frontline, perbaiki sistem pembayaran digital agar lebih cepat dan mudah digunakan.</td>
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td>Ekspansi Wilayah Baru</td>
+                        <td>Fokus pada provinsi dengan potensi pertumbuhan menengah seperti Sumatera Utara, Jawa Tengah, dan Sulawesi. Perkuat promosi lokal dan penetrasi pasar dengan strategi yang sesuai karakteristik daerah.</td>
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td>Optimasi Cabang Utama</td>
+                        <td>Jadikan cabang di Jawa Barat sebagai benchmark, lakukan sharing strategi antar cabang, dan perkuat program loyalitas pelanggan di cabang-cabang dengan traffic tinggi.</td>
+                    </tr>
+                    <tr>
+                        <td>5.</td>
+                        <td>Peningkatan Profitabilitas di Wilayah Timur</td>
+                        <td>Lakukan riset lebih dalam untuk wilayah dengan kontribusi rendah, sesuaikan strategi pemasaran dan logistik agar profitabilitas di wilayah timur meningkat.</td>
+                    </tr>
+                    <tr>
+                        <td>6.</td>
+                        <td>Diversifikasi Portofolio Produk</td>
+                        <td>Tingkatkan pengembangan produk non-psycholeptics seperti vitamin, suplemen, dan produk herbal. Lakukan edukasi pasar agar penjualan kategori lain ikut meningkat.</td>
+                    </tr>
+                    <tr>
+                        <td>7.</td>
+                        <td>Pemanfaatan Dashboard & Data Insight</td>
+                        <td>Maksimalkan penggunaan filter control dan snapshot data untuk monitoring performa per cabang, produk, dan wilayah. Otomatiskan laporan tren musiman untuk membantu pengambilan keputusan lebih cepat.</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
     </main>
 
