@@ -1,150 +1,183 @@
-/* style.css - Versi Minimalis dengan Palet Abu-Biru */
+/* style.css - Gemini Dark Mode Inspired */
 
-/* == 1. PALET WARNA BARU (MINIMALIST) == */
+/* == 1. PALET WARNA & FONT DASAR (GEMINI STYLE) == */
 :root {
-    --bg-light: #F7F7F7;      /* Latar belakang abu-abu sangat terang */
-    --card-bg: #FFFFFF;        /* Warna card putih bersih */
-    --accent-primary: #8AB4F8;  /* Biru lembut sebagai aksen utama (dari gambar) */
-    --accent-secondary: #A3C5FA; /* Biru yang sedikit lebih terang untuk gradien/hover */
-    --text-primary: #202124;    /* Teks utama hitam pekat (seperti Google Material) */
-    --text-secondary: #5F6368;  /* Teks pendukung abu-abu gelap */
-    --border-color: #DADCE0;    /* Garis batas abu-abu terang yang halus */
-    --shadow-color: rgba(0, 0, 0, 0.1); /* Bayangan abu-abu netral */
+    --bg-dark: #1E1E1E; /* Latar belakang utama, abu-abu sangat gelap */
+    --bg-surface: #2C2C2C; /* Warna permukaan untuk card, sedikit lebih terang */
+    --accent-blue: #8AB4F8; /* Biru lembut ala Google untuk aksen */
+    --text-primary: rgba(255, 255, 255, 0.87); /* Teks utama dengan opasitas tinggi */
+    --text-secondary: rgba(255, 255, 255, 0.60); /* Teks sekunder dengan opasitas medium */
+    --border-color: #3C3C3C; /* Garis batas yang sangat subtle */
+    --shadow-color: rgba(138, 180, 248, 0.15); /* Bayangan biru transparan */
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.7;
     margin: 0;
-    background: var(--bg-light);
+    background: var(--bg-dark);
     color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
+/* Disarankan menambahkan font Roboto di setiap file HTML Anda di dalam <head> */
+/* <link rel="preconnect" href="https://fonts.googleapis.com"> */
+/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> */
+/* <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> */
+
 .container {
     width: 90%;
     max-width: 1100px;
     margin: auto;
     padding: 0 20px;
 }
+
+/* == 2. HEADER & HERO SECTION == */
 .hero {
-    background: var(--card-bg);
-    padding: 4rem 0;
+    background: var(--bg-dark); /* Latar hero disamakan dengan body */
+    padding: 5rem 0;
     text-align: center;
     border-bottom: 1px solid var(--border-color);
 }
 .hero-title {
-    font-size: 3rem;
+    font-size: 3.5rem;
+    font-weight: 700;
     margin: 0;
-    color: var(--text-primary);
+    color: #FFFFFF; /* Judul utama menggunakan putih solid */
 }
 .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     color: var(--text-secondary);
+    margin-top: 10px;
 }
+
+/* == 3. STRUKTUR KONTEN & CARD == */
 .section-title {
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 40px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--accent-primary);
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 60px 0 40px 0;
     color: var(--text-primary);
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color); /* Garis bawah yang lebih subtle */
 }
 .section-card {
-    background: var(--card-bg);
-    padding: 30px;
+    background: var(--bg-surface);
+    padding: 35px;
     margin: 40px 0;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    transition: box-shadow 0.2s ease-in-out;
+    border-radius: 12px; /* Radius lebih besar untuk tampilan modern */
 }
-.section-card:hover {
-    box-shadow: 0 4px 12px var(--shadow-color);
-}
+
+/* == 4. PROJECT CARD GRID & ANIMASI == */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 30px;
 }
 .project-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    background: var(--bg-surface);
+    border: 1px solid transparent; /* Border dibuat transparan awalnya */
+    border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px var(--shadow-color);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px var(--shadow-color);
+    border-color: var(--accent-blue); /* Border muncul saat hover */
 }
 .project-card img {
     width: 100%;
-    height: 200px;
+    height: 210px;
     object-fit: cover;
     border-bottom: 1px solid var(--border-color);
 }
 .project-card h3 {
-    padding: 0 20px;
+    padding: 20px 25px 0 25px;
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 500;
     color: var(--text-primary);
 }
 .project-card p {
-    padding: 0 20px;
+    padding: 10px 25px 20px 25px;
+    margin: 0;
     color: var(--text-secondary);
 }
+.project-card a.button {
+    margin: 0 25px 25px 25px; /* Menyesuaikan margin tombol di dalam card */
+}
+
+/* == 5. TOMBOL (BUTTON) INTERAKTIF == */
 .button {
     display: inline-block;
-    background: var(--accent-primary);
-    color: #fff;
-    padding: 12px 24px;
+    background: var(--accent-blue);
+    color: #121212; /* Teks tombol gelap agar kontras dengan background biru terang */
+    padding: 12px 28px;
     text-decoration: none;
-    border-radius: 6px;
-    margin: 20px;
-    font-weight: bold;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    border-radius: 24px; /* Tombol berbentuk pil (pill shape) */
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     border: none;
 }
 .button:hover {
-    background: var(--accent-secondary);
+    background: #A8C7FA; /* Warna biru lebih terang saat hover */
     transform: translateY(-2px);
 }
+
+/* == 6. FOOTER & LINK == */
 footer {
     text-align: center;
-    padding: 20px;
-    margin-top: 40px;
+    padding: 30px;
+    margin-top: 50px;
     border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
 }
 footer a {
-    color: var(--accent-primary);
+    color: var(--accent-blue);
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 500;
 }
-/* Style untuk tabel rekomendasi */
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* == 7. KODE & TABEL (PENYESUAIAN TAMBAHAN) == */
+pre {
+    background: var(--bg-dark) !important;
+    color: var(--text-secondary) !important; 
+    padding: 20px !important; 
+    border-radius: 8px !important; 
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+pre code {
+    font-family: 'Fira Code', 'Courier New', monospace; /* Font khusus untuk kode */
+}
 .recommendation-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    font-size: 0.9rem;
 }
 .recommendation-table th, .recommendation-table td {
-    border: 1px solid var(--border-color);
-    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px;
     text-align: left;
 }
 .recommendation-table th {
-    background-color: var(--bg-light);
     color: var(--text-primary);
-    font-weight: bold;
+    font-weight: 500;
+}
+.recommendation-table tr:last-child td {
+    border-bottom: none;
 }
 .recommendation-table td:first-child {
-    text-align: center;
-    font-weight: bold;
-    color: var(--text-secondary);
-}
-pre {
-    background: #F8F9FA;
-    color: #3C4043;
-    padding: 15px; 
-    border-radius: 5px; 
-    overflow-x: auto;
-    border: 1px solid var(--border-color);
+    color: var(--accent-blue);
 }
