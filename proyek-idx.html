@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studi Kasus: Data Warehouse & ETL untuk Klien ID/X Partners</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,53 +30,50 @@
         <section class="section-card">
             <h2>Solusi: Arsitektur Data Warehouse</h2>
             <p>Saya merancang dan membuat sebuah Data Warehouse (DWH) menggunakan SQL Server dengan skema bintang (star schema). DWH ini terdiri dari tabel fakta (FactTransaction) dan beberapa tabel dimensi (DimCustomer, DimAccount, DimBranch) untuk optimalisasi kueri analisis.</p>
-            <img src="diagram-tabel-idx.png" alt="Diagram Tabel Data Warehouse" style="width:100%; max-width:700px; display:block; margin:20px auto; border-radius:6px;">
+            <img src="diagram-tabel-idx.png" alt="Diagram Tabel Data Warehouse" style="width:100%; max-width:700px; display:block; margin:20px auto; border-radius:12px;">
             
-            <h3>Proses Pembuatan Tabel Dimensi & Fakta (SQL)</h3>
-            <p>Berikut adalah contoh kode SQL untuk membuat tabel dimensi `DimCustomer', 'DimAccount', 'DimBranch', dan tabel fakta `FactTransaction`.</p>
-            <pre style="background:#0d1117; color:#c9d1d9; padding:15px; border-radius:5px; overflow-x:auto;"><code>
--- Tabel DimCustomer
+            <h3>Proses Pembuatan Tabel (SQL)</h3>
+            <p>Berikut adalah kode SQL untuk membuat tabel-tabel dimensi dan fakta.</p>
+            <pre><code>-- Tabel DimCustomer
 CREATE TABLE DimCustomer (
-    Customer_Id INT PRIMARY KEY NOT NULL, -- Primary Key
+    Customer_Id INT PRIMARY KEY NOT NULL,
     Customer_Name VARCHAR(50) NOT NULL,
     Address VARCHAR(50) NOT NULL,
     City_Name VARCHAR(50) NOT NULL,
     State_Name VARCHAR(50) NOT NULL,
-    Age int NOT NULL,
+    Age INT NOT NULL,
     Gender VARCHAR(50) NOT NULL,
     Email VARCHAR(50) NOT NULL
 );
 
 -- Tabel DimAccount
 CREATE TABLE DimAccount (
-    Account_Id INT PRIMARY KEY NOT NULL, -- Primary Key
-    Customer_Id INT NOT NULL, -- Foreign Key ke DimCustomer
+    Account_Id INT PRIMARY KEY NOT NULL,
+    Customer_Id INT NOT NULL,
     Account_Type VARCHAR(50) NOT NULL,
     Balance INT NOT NULL,
     Date_Opened DATETIME NOT NULL,
     Status VARCHAR(50) NOT NULL,
-	FOREIGN KEY (Customer_id) REFERENCES DimCustomer(Customer_Id)
-	
+    FOREIGN KEY (Customer_id) REFERENCES DimCustomer(Customer_Id)
 );
 
 -- Tabel DimBranch
 CREATE TABLE DimBranch (
-    Branch_Id INT PRIMARY KEY NOT NULL, -- Primary Key
+    Branch_Id INT PRIMARY KEY NOT NULL,
     Branch_Name VARCHAR(50) NOT NULL,
     Branch_Location VARCHAR(50) NOT NULL
 );
 
 -- Tabel FactTransaction
 CREATE TABLE FactTransaction (
-    Transaction_Id INT PRIMARY KEY NOT NULL, -- Primary Key
-    Account_Id INT NOT NULL, -- Foreign Key ke DimAccount
+    Transaction_Id INT PRIMARY KEY NOT NULL,
+    Account_Id INT NOT NULL,
     Transaction_Date DATETIME2 NOT NULL,
     Amount DECIMAL NOT NULL,
     Transaction_Type VARCHAR(50) NOT NULL,
-    Branch_Id INT NOT NULL, -- Foreign Key ke DimBranch
-
-	FOREIGN KEY (Account_Id) REFERENCES DimAccount(Account_Id),
-	FOREIGN KEY (Branch_Id) REFERENCES DimBranch(Branch_Id)
+    Branch_Id INT NOT NULL,
+    FOREIGN KEY (Account_Id) REFERENCES DimAccount(Account_Id),
+    FOREIGN KEY (Branch_Id) REFERENCES DimBranch(Branch_Id)
 );
             </code></pre>
         </section>
@@ -78,15 +81,13 @@ CREATE TABLE FactTransaction (
         <section class="section-card">
             <h2>Proses ETL (Extract, Transform, Load) dengan Talend</h2>
             <p>Untuk mengotomatisasi aliran data dari berbagai sumber ke dalam Data Warehouse, saya membangun ETL Job menggunakan Talend. Job ini menggabungkan data dari file Excel, CSV, dan database, melakukan transformasi seperti standarisasi format, dan membersihkan data duplikat sebelum memuatnya ke tabel-tabel di DWH.</p>
-            <img src="proses-etl-idx.png" alt="Proses ETL Job di Talend" style="width:100%; max-width:800px; display:block; margin:20px auto; border-radius:6px;">
+            <img src="proses-etl-idx.png" alt="Proses ETL Job di Talend" style="width:100%; max-width:800px; display:block; margin:20px auto; border-radius:12px;">
         </section>
         
         <section class="section-card">
             <h2>Otomatisasi Laporan dengan Stored Procedure</h2>
-            <p>Untuk memudahkan tim analisis mendapatkan ringkasan data harian dengan cepat, saya membuat Stored Procedure `DailyTransaction`. Prosedur ini dapat dipanggil dengan parameter rentang tanggal untuk menghasilkan laporan jumlah transaksi dan total nominalnya.</p>
-             <pre style="background:#0d1117; color:#c9d1d9; padding:15px; border-radius:5px; overflow-x:auto;"><code>
---------------- Sql PROCEDURE DailyTransaction --------------- 
-
+            <p>Untuk memudahkan tim analisis mendapatkan ringkasan data dengan cepat, saya membuat dua Stored Procedure utama: `DailyTransaction` untuk ringkasan transaksi harian dan `BalancePerCustomer` untuk melihat saldo terkini setiap nasabah.</p>
+             <pre><code>-- Stored Procedure 1: DailyTransaction
 CREATE PROCEDURE DailyTransaction
     @start_date DATE,
     @end_date DATE
@@ -96,22 +97,14 @@ BEGIN
         CAST(Transaction_Date AS DATE) AS Date,
         COUNT(*) AS TotalTransactions,
         SUM(Amount) AS TotalAmount
-    FROM
-        FactTransaction
-    WHERE
-        Transaction_Date BETWEEN @start_date AND @end_date
-    GROUP BY
-        CAST(Transaction_Date AS DATE)
-    ORDER BY
-        Date;
-END
+    FROM FactTransaction
+    WHERE Transaction_Date BETWEEN @start_date AND @end_date
+    GROUP BY CAST(Transaction_Date AS DATE)
+    ORDER BY Date;
+END;
+-- Contoh Eksekusi: EXEC DailyTransaction '2024-01-01', '2024-01-31';
 
--- Contoh Eksekusi
-EXEC DailyTransaction '2024-01-01', '2024-01-31'
-
-		     
---------------- PROCEDURE BalancePerCustomer ---------------
-
+-- Stored Procedure 2: BalancePerCustomer
 CREATE PROCEDURE BalancePerCustomer
     @name NVARCHAR(100)
 AS
@@ -121,8 +114,7 @@ BEGIN
         a.Account_Type,
         a.Balance,
         a.Balance + SUM(CASE WHEN t.Transaction_Type = 'Deposit' THEN t.amount ELSE -t.amount END) AS CurrentBalance
-    FROM 
-        DimAccount a
+    FROM DimAccount a
     INNER JOIN DimCustomer c ON a.customer_id = c.Customer_Id
     LEFT JOIN FactTransaction t ON a.account_id = t.Account_Id
     WHERE 
@@ -130,14 +122,11 @@ BEGIN
         a.status = 'active'
     GROUP BY 
         c.Customer_Name, a.Account_Type, a.Balance;
-END
-
-EXEC BalancePerCustomer 'SHELLY JUWITA';
-
+END;
+-- Contoh Eksekusi: EXEC BalancePerCustomer 'SHELLY JUWITA';
             </code></pre>
             <p>Video penjelasan proyek ini dapat dilihat di YouTube:</p>
-            <!-- Ganti src dengan link EMBED video YouTube Anda -->
-            <iframe width="100%" height="400" src="https://www.youtube.com/embed/gjwpr0888dM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:6px; margin-top:20px;"></iframe>
+            <iframe width="100%" height="400" src="https://www.youtube.com/embed/gjwpr0888dM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:12px; margin-top:20px;"></iframe>
         </section>
     </main>
 
