@@ -1,223 +1,131 @@
-/* style.css - Modern & Professional Upgrade */
-
-/* == 1. PALET WARNA & FONT DASAR == */
+/* style.css - Versi Original (GitHub-inspired) */
 :root {
-    --bg-dark: #121212; /* Latar belakang utama, lebih gelap dari sebelumnya */
-    --bg-light: #1E1E1E; /* Latar belakang untuk card/section */
-    --accent-primary: #00A3FF; /* Warna aksen biru yang cerah dan profesional */
-    --accent-secondary: #007BFF; /* Gradien untuk tombol */
-    --text-primary: #EAEAEA; /* Warna teks utama yang sedikit lebih cerah */
-    --text-secondary: #A0A0A0; /* Warna teks pendukung (subjudul, deskripsi) */
-    --border-color: #333333; /* Warna garis batas yang lebih halus */
-    --shadow-color: rgba(0, 163, 255, 0.1); /* Warna bayangan sesuai warna aksen */
+    --primary-color: #0d1117;
+    --secondary-color: #161b22;
+    --accent-color: #238636;
+    --text-color: #c9d1d9;
+    --border-color: #30363d;
 }
-
-html {
-    scroll-behavior: smooth; /* Membuat scrolling lebih halus saat mengklik link internal */
-}
-
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.6;
     margin: 0;
-    background: var(--bg-dark);
-    color: var(--text-primary);
-    -webkit-font-smoothing: antialiased; /* Membuat font terlihat lebih halus di beberapa browser */
-    -moz-osx-font-smoothing: grayscale;
+    background: var(--primary-color);
+    color: var(--text-color);
 }
-
-/* Tambahkan ini di HTML Anda di dalam <head> untuk font Inter */
-/* <link rel="preconnect" href="https://fonts.googleapis.com"> */
-/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> */
-/* <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"> */
-
 .container {
     width: 90%;
-    max-width: 1200px; /* Sedikit lebih lebar untuk layar besar */
+    max-width: 1100px;
     margin: auto;
     padding: 0 20px;
 }
-
-/* == 2. HEADER & HERO SECTION == */
 .hero {
-    background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-dark) 100%); /* Gradien halus */
-    padding: 6rem 0;
+    background: var(--secondary-color);
+    padding: 4rem 0;
     text-align: center;
     border-bottom: 1px solid var(--border-color);
 }
-
 .hero-title {
-    font-size: clamp(2.5rem, 6vw, 4rem); /* Ukuran font responsif */
-    font-weight: 900; /* Lebih tebal untuk dampak maksimal */
+    font-size: 3rem;
     margin: 0;
     color: #fff;
-    letter-spacing: -2px; /* Jarak huruf lebih rapat untuk judul besar */
 }
-
 .hero-subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: var(--text-secondary);
-    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #8b949e;
 }
-
-/* == 3. STRUKTUR KONTEN & CARD == */
 .section-title {
     text-align: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 80px 0 50px 0;
-    position: relative;
-    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
 }
-/* Garis bawah dekoratif untuk judul section */
-.section-title::after {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 4px;
-    background: var(--accent-primary);
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 2px;
-}
-
 .section-card {
-    background: var(--bg-light);
-    padding: 40px;
+    background: var(--secondary-color);
+    padding: 30px;
     margin: 40px 0;
     border: 1px solid var(--border-color);
-    border-radius: 12px; /* Sudut lebih tumpul */
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 6px;
 }
-
-/* == 4. PROJECT CARD GRID & ANIMASI == */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
 }
-
 .project-card {
-    background: var(--bg-light);
+    background: var(--secondary-color);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 6px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi lebih halus */
-    display: flex;
-    flex-direction: column; /* Membuat layout di dalam card lebih fleksibel */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
-
 .project-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 15px 35px var(--shadow-color); /* Bayangan dengan warna aksen */
-    border-color: var(--accent-primary);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
 }
-
 .project-card img {
     width: 100%;
-    height: 220px;
+    height: 200px;
     object-fit: cover;
     border-bottom: 1px solid var(--border-color);
-    filter: grayscale(30%); /* Efek grayscale halus pada gambar */
-    transition: filter 0.3s ease;
 }
-
-.project-card:hover img {
-    filter: grayscale(0%); /* Warna gambar menjadi penuh saat di-hover */
-}
-
-.project-card-content {
-    padding: 25px;
-    flex-grow: 1; /* Memastikan konten mengisi ruang yang tersedia */
-    display: flex;
-    flex-direction: column;
-}
-
-.project-card-content h3 {
-    margin-top: 0;
-    font-size: 1.4rem;
+.project-card h3 {
+    padding: 0 20px;
     color: #fff;
 }
-
-.project-card-content p {
-    color: var(--text-secondary);
-    flex-grow: 1; /* Mendorong tombol ke bawah */
+.project-card p {
+    padding: 0 20px;
 }
-
-/* == 5. TOMBOL (BUTTON) INTERAKTIF == */
 .button {
     display: inline-block;
-    background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+    background: var(--accent-color);
     color: #fff;
-    padding: 14px 28px;
+    padding: 12px 24px;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 6px;
+    margin: 20px;
     font-weight: bold;
-    margin-top: 20px; /* Menggantikan margin di semua sisi */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    align-self: flex-start; /* Tombol rata kiri di dalam card */
+    transition: background-color 0.2s;
 }
-
 .button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0, 123, 255, 0.3);
+    background: #2ea043;
 }
-
-/* == 6. FOOTER & LINK == */
 footer {
     text-align: center;
-    padding: 40px 20px;
-    margin-top: 60px;
+    padding: 20px;
+    margin-top: 40px;
     border-top: 1px solid var(--border-color);
-    color: var(--text-secondary);
 }
-
 footer a {
-    color: var(--accent-primary);
+    color: #58a6ff;
     text-decoration: none;
-    font-weight: bold;
-    position: relative;
 }
-/* Efek garis bawah saat hover pada link footer */
-footer a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: var(--accent-primary);
-    bottom: -4px;
-    left: 0;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s ease-in-out;
-}
-
-footer a:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
-/* == 7. KODE & TABEL (PENYESUAIAN TAMBAHAN) == */
-pre {
-    background: var(--bg-dark) !important; /* Memastikan background kode konsisten */
-    border: 1px solid var(--border-color);
-    border-radius: 8px !important;
-}
-
+/* Style untuk tabel rekomendasi */
 .recommendation-table {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    border-radius: 8px;
-    overflow: hidden; /* Agar border-radius terlihat pada tabel */
-    border: 1px solid var(--border-color);
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9rem;
 }
 .recommendation-table th, .recommendation-table td {
-    border: none;
-    border-bottom: 1px solid var(--border-color);
+    border: 1px solid var(--border-color);
+    padding: 12px 15px;
+    text-align: left;
 }
 .recommendation-table th {
-    background-color: #1E1E1E !important;
+    background-color: var(--secondary-color);
+    color: #fff;
+    font-weight: bold;
 }
-.recommendation-table tr:last-child td {
-    border-bottom: none; /* Hapus border di baris terakhir */
+.recommendation-table td:first-child {
+    text-align: center;
+    font-weight: bold;
+}
+pre {
+    background:#0d1117; 
+    color:#c9d1d9; 
+    padding:15px; 
+    border-radius:5px; 
+    overflow-x:auto;
 }
