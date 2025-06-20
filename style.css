@@ -1,22 +1,23 @@
-/* style.css - Versi Original dengan Palet Warna Biru Modern */
+/* style.css - Versi Light Mode dengan Palet Biru Terang */
 
-/* == 1. PALET WARNA BARU (BERDASARKAN GAMBAR) == */
+/* == 1. PALET WARNA BARU (LIGHT MODE) == */
 :root {
-    --bg-dark: #050A1A; /* Biru sangat gelap, hampir hitam */
-    --bg-light: #0A192F; /* Biru navy gelap untuk card */
-    --accent-primary: #007BFF; /* Biru elektrik yang cerah sebagai aksen utama */
-    --accent-secondary: #0056b3; /* Biru yang sedikit lebih gelap untuk gradien */
-    --text-color: #c9d1d9; /* Warna teks tetap sama, kontrasnya bagus */
-    --border-color: #172A45; /* Garis batas biru gelap yang subtle */
-    --shadow-color: rgba(0, 123, 255, 0.25); /* Bayangan biru untuk efek hover */
+    --bg-light: #F4F8FF;      /* Latar belakang biru sangat pucat */
+    --card-bg: #FFFFFF;        /* Warna card putih bersih */
+    --accent-primary: #2979FF;  /* Biru cerah sebagai aksen utama (dari gambar) */
+    --accent-secondary: #4C8DFF; /* Biru yang sedikit lebih terang untuk gradien */
+    --text-primary: #1A202C;    /* Teks utama berwarna abu-abu gelap */
+    --text-secondary: #4A5568;  /* Teks pendukung berwarna abu-abu lebih terang */
+    --border-color: #E2E8F0;    /* Garis batas abu-abu sangat terang */
+    --shadow-color: rgba(41, 121, 255, 0.15); /* Bayangan biru yang halus */
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     line-height: 1.6;
     margin: 0;
-    background: var(--bg-dark); /* Menggunakan latar belakang baru */
-    color: var(--text-color);
+    background: var(--bg-light); /* Menggunakan latar belakang baru */
+    color: var(--text-primary);  /* Menggunakan warna teks baru */
 }
 .container {
     width: 90%;
@@ -25,7 +26,7 @@ body {
     padding: 0 20px;
 }
 .hero {
-    background: var(--bg-light); /* Menggunakan warna card baru */
+    background: var(--card-bg); /* Hero section dengan latar putih */
     padding: 4rem 0;
     text-align: center;
     border-bottom: 1px solid var(--border-color);
@@ -33,25 +34,27 @@ body {
 .hero-title {
     font-size: 3rem;
     margin: 0;
-    color: #fff;
+    color: var(--text-primary); /* Judul dengan warna teks utama */
 }
 .hero-subtitle {
     font-size: 1.2rem;
-    color: #8b949e;
+    color: var(--text-secondary); /* Subjudul dengan warna teks sekunder */
 }
 .section-title {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 40px;
     padding-bottom: 10px;
-    border-bottom: 2px solid var(--accent-primary); /* Garis bawah dengan aksen biru */
+    border-bottom: 2px solid var(--accent-primary); /* Garis bawah biru */
+    color: var(--text-primary);
 }
 .section-card {
-    background: var(--bg-light);
+    background: var(--card-bg);
     padding: 30px;
     margin: 40px 0;
     border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border-radius: 8px; /* Sudut sedikit lebih tumpul */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Bayangan yang sangat halus */
 }
 .project-grid {
     display: grid;
@@ -59,16 +62,15 @@ body {
     gap: 25px;
 }
 .project-card {
-    background: var(--bg-light);
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px var(--shadow-color); /* Bayangan biru saat hover */
-    border-color: var(--accent-primary); /* Border biru saat hover */
+    box-shadow: 0 10px 25px var(--shadow-color); /* Bayangan biru saat hover */
 }
 .project-card img {
     width: 100%;
@@ -78,14 +80,14 @@ body {
 }
 .project-card h3 {
     padding: 0 20px;
-    color: #fff;
+    color: var(--text-primary);
 }
 .project-card p {
     padding: 0 20px;
+    color: var(--text-secondary);
 }
 .button {
     display: inline-block;
-    /* Menggunakan gradien biru untuk tombol */
     background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
     color: #fff;
     padding: 12px 24px;
@@ -94,20 +96,21 @@ body {
     margin: 20px;
     font-weight: bold;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: none; /* Hapus border default jika ada */
+    border: none;
 }
 .button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4); /* Efek 'glow' saat hover */
+    box-shadow: 0 6px 20px rgba(41, 121, 255, 0.3);
 }
 footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
     border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
 }
 footer a {
-    color: var(--accent-primary); /* Link di footer menggunakan warna aksen biru */
+    color: var(--accent-primary);
     text-decoration: none;
     font-weight: bold;
 }
@@ -124,17 +127,18 @@ footer a {
     text-align: left;
 }
 .recommendation-table th {
-    background-color: var(--bg-light); /* Header tabel disamakan dengan warna card */
-    color: #fff;
+    background-color: var(--bg-light); /* Header tabel dengan bg pucat */
+    color: var(--text-primary);
     font-weight: bold;
 }
 .recommendation-table td:first-child {
     text-align: center;
     font-weight: bold;
+    color: var(--accent-primary);
 }
 pre {
-    background: var(--bg-dark); /* Latar belakang kode disamakan dengan bg utama */
-    color: #c9d1d9; 
+    background: #F9FAFB; /* Latar blok kode yang sedikit berbeda */
+    color: #374151;
     padding: 15px; 
     border-radius: 5px; 
     overflow-x: auto;
