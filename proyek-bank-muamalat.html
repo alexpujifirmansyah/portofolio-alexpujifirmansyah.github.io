@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studi Kasus: BI Dashboard & Analisis Pelanggan - Bank Muamalat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <h1 class="hero-title">BI Dashboard & Analisis Pelanggan</h1>
+            <p class="hero-subtitle">Meningkatkan Wawasan Bisnis Strategis untuk PT Sejahtera Bersama (Studi Kasus Bank Muamalat)</p>
+            <a href="index.html" class="button">Kembali ke Beranda</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section-card">
+            <h2>Konteks & Tujuan Proyek</h2>
+            <p>Sebagai BI Analyst, saya dihadapkan pada tantangan di mana data penjualan PT Sejahtera Bersama terfragmentasi di empat sumber data yang terisolasi (Customers, Orders, Products, ProductCategory). Hal ini menghambat manajemen dalam mendapatkan gambaran utuh tentang kinerja bisnis. Tujuan proyek ini adalah mentransformasi data mentah tersebut menjadi sebuah ekosistem analitik terintegrasi untuk mendorong pertumbuhan penjualan.</p>
+        </section>
+
+        <section class="section-card">
+            <h2>Desain Data & Proses ETL</h2>
+            <p>Langkah pertama adalah merancang skema data yang logis untuk menghubungkan semua sumber data. Kunci utama (Primary Key) dan relasi antar tabel didefinisikan untuk memastikan integritas data. Selanjutnya, proses ETL dilakukan untuk menyatukan keempat tabel sumber menjadi satu tabel master sebagai "Single Source of Truth" untuk analisis.</p>
+            <img src="skema-muamalat.png" alt="Skema Data Relasional" style="width:100%; max-width:700px; display:block; margin:20px auto; border-radius:6px;">
+        </section>
+
+        <section class="section-card">
+            <h2>Hasil: Dashboard Analisis Kinerja Penjualan Interaktif</h2>
+            <p>Saya mengembangkan sebuah dashboard Business Intelligence interaktif yang dirancang untuk mengubah data kompleks menjadi wawasan visual yang cepat dan mudah dipahami. Dashboard ini dilengkapi dengan ringkasan KPI, analisis performa berdasarkan kategori dan kota, serta filter interaktif. Silakan coba filter yang ada di dashboard di bawah ini.</p>
+            
+            <!-- KODE EMBED DASHBOARD ANDA DIMASUKKAN DI SINI -->
+            <iframe width="100%" height="800" src="https://lookerstudio.google.com/embed/reporting/67df4ad9-e78e-4028-846e-02e94b21eb9b/page/OVfNF" frameborder="0" style="border:0; border-radius:6px; margin-top:20px;" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+        
+        </section>
+        
+        <section class="section-card">
+            <h2>Analisis Mendalam: Segmentasi Pelanggan (RFM)</h2>
+            <p>Salah satu wawasan kunci dari dashboard adalah analisis segmentasi pelanggan menggunakan model RFM (Recency, Frequency, Monetary). Analisis ini mengungkapkan bahwa pelanggan tidak seragam dan dapat dikelompokkan menjadi segmen-segmen strategis:</p>
+            <img src="rfm-muamalat.png" alt="Analisis Nilai Pelanggan (RFM)" style="width:100%; max-width:700px; display:block; margin:20px auto; border-radius:6px;">
+            <ul>
+                <li><strong>Champions (Kanan Atas):</strong> Pelanggan paling berharga yang sering membeli dengan nilai transaksi tinggi.</li>
+                <li><strong>Big Spenders (Kiri Atas):</strong> Jarang membeli, namun sekali membeli nilainya sangat tinggi.</li>
+                <li><strong>Loyal Customers (Kanan Bawah):</strong> Sering membeli, namun nilai transaksinya rendah.</li>
+            </ul>
+            <p>Temuan ini memungkinkan perusahaan beralih dari strategi "satu untuk semua" ke pemasaran berbasis segmen yang lebih efektif, seperti program VIP untuk Champions dan upsell untuk Loyal Customers.</p>
+        </section>
+
+        <section class="section-card">
+            <h2>Kesimpulan & Rekomendasi</h2>
+            <p>Meskipun memiliki fondasi produk yang kuat, fokus perusahaan harus beralih dari akuisisi ke optimalisasi nilai pelanggan. Kunci utamanya adalah menerapkan pemasaran berbasis segmen dan mereplikasi strategi yang sukses di wilayah-wilayah dominan ke area lain yang memiliki potensi pertumbuhan.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Alex Puji Firmansyah.</p>
+        </div>
+    </footer>
+</body>
+</html>
