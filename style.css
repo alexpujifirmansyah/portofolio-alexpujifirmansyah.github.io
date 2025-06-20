@@ -1,131 +1,221 @@
-/* style.css - Versi Original (GitHub-inspired) */
+/* style.css - Blue & Professional Theme Upgrade */
+
+/* == 1. PALET WARNA BARU & FONT DASAR == */
 :root {
-    --primary-color: #0d1117;
-    --secondary-color: #161b22;
-    --accent-color: #238636;
-    --text-color: #c9d1d9;
-    --border-color: #30363d;
+    /* Warna diambil dari palet biru yang Anda berikan */
+    --bg-dark: #0B1220; /* Biru sangat gelap untuk latar belakang utama */
+    --bg-light: #101C36; /* Biru lebih terang untuk card/section */
+    --accent-primary: #005BFF; /* Biru paling cerah sebagai aksen utama */
+    --accent-secondary: #0D3A8A; /* Biru tengah untuk gradien tombol */
+    --text-primary: #F0F6FC; /* Teks utama, warna putih kebiruan yang lembut */
+    --text-secondary: #8B949E; /* Teks pendukung, warna abu-abu netral */
+    --border-color: #212E4A; /* Garis batas biru gelap yang halus */
+    --shadow-color: rgba(0, 91, 255, 0.15); /* Bayangan biru transparan untuk efek 'glow' */
+    --text-on-accent: #FFFFFF; /* Teks putih untuk di atas tombol */
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    line-height: 1.6;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.7;
     margin: 0;
-    background: var(--primary-color);
-    color: var(--text-color);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
 .container {
     width: 90%;
-    max-width: 1100px;
+    max-width: 1200px;
     margin: auto;
     padding: 0 20px;
 }
+
+/* == 2. HEADER & HERO SECTION == */
 .hero {
-    background: var(--secondary-color);
-    padding: 4rem 0;
+    background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-dark) 100%);
+    padding: 6rem 0;
     text-align: center;
     border-bottom: 1px solid var(--border-color);
 }
+
 .hero-title {
-    font-size: 3rem;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
     margin: 0;
-    color: #fff;
+    color: var(--text-on-accent);
+    letter-spacing: -2px;
 }
+
 .hero-subtitle {
-    font-size: 1.2rem;
-    color: #8b949e;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--text-secondary);
+    margin-top: 10px;
 }
+
+/* == 3. STRUKTUR KONTEN & CARD == */
 .section-title {
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 40px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--accent-color);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 80px 0 50px 0;
+    position: relative;
+    color: var(--text-on-accent);
 }
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 4px;
+    background: var(--accent-primary);
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
 .section-card {
-    background: var(--secondary-color);
-    padding: 30px;
+    background: var(--bg-light);
+    padding: 40px;
     margin: 40px 0;
     border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
+
+/* == 4. PROJECT CARD GRID & ANIMASI == */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
 }
+
 .project-card {
-    background: var(--secondary-color);
+    background: var(--bg-light);
     border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
+
 .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 35px var(--shadow-color);
+    border-color: var(--accent-primary);
 }
+
 .project-card img {
     width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
     border-bottom: 1px solid var(--border-color);
+    filter: grayscale(50%); /* Efek grayscale pada gambar */
+    transition: filter 0.3s ease;
 }
-.project-card h3 {
-    padding: 0 20px;
-    color: #fff;
+
+.project-card:hover img {
+    filter: grayscale(0%); /* Warna gambar menjadi penuh saat di-hover */
 }
-.project-card p {
-    padding: 0 20px;
+
+.project-card-content {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
+
+.project-card-content h3 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    color: var(--text-on-accent);
+}
+
+.project-card-content p {
+    color: var(--text-secondary);
+    flex-grow: 1;
+}
+
+/* == 5. TOMBOL (BUTTON) INTERAKTIF == */
 .button {
     display: inline-block;
-    background: var(--accent-color);
-    color: #fff;
-    padding: 12px 24px;
+    background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+    color: var(--text-on-accent);
+    padding: 14px 28px;
     text-decoration: none;
-    border-radius: 6px;
-    margin: 20px;
+    border-radius: 8px;
     font-weight: bold;
-    transition: background-color 0.2s;
+    margin-top: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    align-self: flex-start;
 }
+
 .button:hover {
-    background: #2ea043;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 91, 255, 0.3);
 }
+
+/* == 6. FOOTER & LINK == */
 footer {
     text-align: center;
-    padding: 20px;
-    margin-top: 40px;
+    padding: 40px 20px;
+    margin-top: 60px;
     border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
 }
+
 footer a {
-    color: #58a6ff;
+    color: var(--accent-primary);
     text-decoration: none;
+    font-weight: bold;
+    position: relative;
 }
-/* Style untuk tabel rekomendasi */
-.recommendation-table {
+footer a::after {
+    content: '';
+    position: absolute;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 0.9rem;
+    height: 2px;
+    background: var(--accent-primary);
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease-in-out;
+}
+
+footer a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* == 7. KODE & TABEL (PENYESUAIAN TAMBAHAN) == */
+pre {
+    background: var(--bg-dark) !important;
+    border: 1px solid var(--border-color);
+    border-radius: 8px !important;
+    white-space: pre-wrap; /* Memastikan kode panjang bisa pindah baris */
+    word-wrap: break-word;
+}
+
+.recommendation-table {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
 }
 .recommendation-table th, .recommendation-table td {
-    border: 1px solid var(--border-color);
-    padding: 12px 15px;
-    text-align: left;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
 }
 .recommendation-table th {
-    background-color: var(--secondary-color);
-    color: #fff;
-    font-weight: bold;
+    background-color: var(--bg-light) !important;
+    color: var(--text-primary);
 }
-.recommendation-table td:first-child {
-    text-align: center;
-    font-weight: bold;
-}
-pre {
-    background:#0d1117; 
-    color:#c9d1d9; 
-    padding:15px; 
-    border-radius:5px; 
-    overflow-x:auto;
+.recommendation-table tr:last-child td {
+    border-bottom: none;
 }
