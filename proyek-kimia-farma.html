@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studi Kasus: Kimia Farma Performance Analytics</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,32 +24,27 @@
     <main class="container">
         <section class="section-card">
             <h2>Ringkasan Proyek</h2>
-            <p><!-- PT Kimia Farma, sebagai salah satu perusahaan farmasi terkemuka di Indonesia, perlu secara rutin mengevaluasi kinerja bisnisnya untuk mengidentifikasi tren, 
-peluang, dan area yang memerlukan perbaikan. Periode 2020-2023 merupakan waktu yang penting untuk dianalisis, mengingat adanya berbagai tantangan dan perubahan dalam industri farmasi, termasuk dampak pandemi COVID-19.
-              
-              Proyek ini bertujuan untuk mengevaluasi kinerja bisnis Kimia Farma menggunakan pendekatan Big Data Analytics. Hasil analisis ini akan digunakan untuk 
-memberikan wawasan yang mendalam kepada manajemen Kimia Farma, sehingga mereka dapat membuat keputusan bisnis yang lebih strategis.--></p>
+            <p>PT Kimia Farma, sebagai salah satu perusahaan farmasi terkemuka di Indonesia, perlu secara rutin mengevaluasi kinerja bisnisnya untuk mengidentifikasi tren, peluang, dan area yang memerlukan perbaikan. Periode 2020-2023 merupakan waktu yang penting untuk dianalisis, mengingat adanya berbagai tantangan dan perubahan dalam industri farmasi, termasuk dampak pandemi COVID-19.</p>
+            <p>Proyek ini bertujuan untuk mengevaluasi kinerja bisnis Kimia Farma menggunakan pendekatan Big Data Analytics. Hasil analisis ini akan digunakan untuk memberikan wawasan yang mendalam kepada manajemen Kimia Farma, sehingga mereka dapat membuat keputusan bisnis yang lebih strategis.</p>
         </section>
 
         <section class="section-card">
             <h2>Dashboard Interaktif</h2>
             <p>Dashboard ini dibuat dengan Looker Studio untuk memvisualisasikan tren penjualan, profitabilitas, dan performa cabang. Silakan berinteraksi dengan dashboard di bawah ini.</p>
-            <!-- Ganti src dengan link EMBED Looker Studio Anda -->
             <iframe 
-    width="100%" 
-    height="800" 
-    src="https://lookerstudio.google.com/embed/reporting/b9b5e387-85a0-4efe-b592-f7340a4dc2f6" 
-    frameborder="0" 
-    style="border:0; border-radius:6px; margin-top:20px;" 
-    allowfullscreen>
-    </iframe>
+                width="100%" 
+                height="800" 
+                src="https://lookerstudio.google.com/embed/reporting/b9b5e387-85a0-4efe-b592-f7340a4dc2f6" 
+                frameborder="0" 
+                style="border:0; border-radius:12px; margin-top:20px;" 
+                allowfullscreen>
+            </iframe>
         </section>
 
         <section class="section-card">
             <h2>Proses Teknis: SQL di BigQuery</h2>
             <p>Data dari berbagai sumber digabungkan dan ditransformasi menggunakan SQL di Google BigQuery untuk membuat tabel analisis utama.</p>
-            <pre style="background:#0d1117; color:#c9d1d9; padding:15px; border-radius:5px; overflow-x:auto;"><code>
--- Kimia Farma Big Data Analytics Project Based Internship Program
+            <pre><code>-- Kimia Farma Big Data Analytics Project Based Internship Program
 -- Performance Analytics Analisis kinerja bisnis Kimia Farma Tahun 2020-2023
               
 -- Membuat atau menggantikan tabel bernama 'tabel_analisis' di dataset 'kimia_farma'
@@ -63,11 +64,11 @@ SELECT
     ft.discount_percentage,             -- Persentase diskon dari tabel transaksi
     -- Menentukan persentase gross laba berdasarkan rentang harga produk
     CASE
-        WHEN p.price <= 50000 THEN 0.10                         -- Jika harga <= 50000, maka laba 10%
-        WHEN p.price > 50000 AND p.price <= 100000 THEN 0.15    -- Jika harga > 50000 dan <= 100000, maka laba 15%
-        WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20   -- Jika harga > 100000 dan <= 300000, maka laba 20%
-        WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25   -- Jika harga > 300000 dan <= 500000, maka laba 25%
-        ELSE 0.30                                               -- Jika harga > 500000, maka laba 30%
+        WHEN p.price <= 50000 THEN 0.10
+        WHEN p.price > 50000 AND p.price <= 100000 THEN 0.15
+        WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20
+        WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25
+        ELSE 0.30
     END AS persentase_gross_laba,
     -- Menghitung nett_sales (harga setelah diskon)
     p.price * (1 - ft.discount_percentage) AS nett_sales,
@@ -78,94 +79,68 @@ SELECT
         WHEN p.price > 100000 AND p.price <= 300000 THEN 0.20
         WHEN p.price > 300000 AND p.price <= 500000 THEN 0.25
         ELSE 0.30
-    END AS nett_profit,                -- Memberi alias nett_profit untuk hasil perhitungan keuntungan
-    ft.rating AS rating_transaksi      -- Memberi alias pada kolom rating menjadi rating_transaksi
-FROM    --  Mengambil data dari tabel transaksi
+    END AS nett_profit,
+    ft.rating AS rating_transaksi
+FROM
     `kimia_farma.kf_final_transaction` ft  
-JOIN    --  Join dengan tabel kantor cabang berdasarkan branch_id
-    `kimia_farma.kf_kantor_cabang` kc       
-    ON ft.branch_id = kc.branch_id          
-JOIN    --  Join dengan tabel produk berdasarkan product_id
-    `kimia_farma.kf_product` p             
-    ON ft.product_id = p.product_id;
+JOIN
+    `kimia_farma.kf_kantor_cabang` kc ON ft.branch_id = kc.branch_id          
+JOIN
+    `kimia_farma.kf_product` p ON ft.product_id = p.product_id;
 </code></pre>
         </section>
         
         <section class="section-card">
-    <h2>Analisis & Rekomendasi Bisnis</h2>
-    <p>Berdasarkan analisis data yang telah dilakukan, ditemukan beberapa wawasan kunci yang mengarah pada rekomendasi strategis untuk meningkatkan kinerja bisnis Kimia Farma. Rekomendasi ini dirancang untuk mengatasi tantangan spesifik dan memanfaatkan peluang yang ada.</p>
-    
-    <!-- Tabel Rekomendasi Bisnis -->
-    <style>
-        .recommendation-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 0.9rem;
-        }
-        .recommendation-table th, .recommendation-table td {
-            border: 1px solid var(--border-color);
-            padding: 12px 15px;
-            text-align: left;
-        }
-        .recommendation-table th {
-            background-color: var(--secondary-color);
-            color: #fff;
-            font-weight: bold;
-        }
-        .recommendation-table td:first-child {
-            text-align: center;
-            font-weight: bold;
-        }
-    </style>
-
-    <table class="recommendation-table">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Area Fokus</th>
-                <th>Tindakan yang Direkomendasikan</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1.</td>
-                <td>Stabilitas Laba Bersih</td>
-                <td>Lakukan evaluasi menyeluruh terhadap strategi profit selama pandemi, optimalkan biaya distribusi dan operasional, serta siapkan strategi adaptif untuk merespon perubahan perilaku konsumen.</td>
-            </tr>
-            <tr>
-                <td>2.</td>
-                <td>Perbaikan Proses Transaksi</td>
-                <td>Audit cabang dengan jumlah transaksi rendah, tingkatkan pelatihan staf frontline, perbaiki sistem pembayaran digital agar lebih cepat dan mudah digunakan.</td>
-            </tr>
-            <tr>
-                <td>3.</td>
-                <td>Ekspansi Wilayah Baru</td>
-                <td>Fokus pada provinsi dengan potensi pertumbuhan menengah seperti Sumatera Utara, Jawa Tengah, dan Sulawesi. Perkuat promosi lokal dan penetrasi pasar dengan strategi yang sesuai karakteristik daerah.</td>
-            </tr>
-            <tr>
-                <td>4.</td>
-                <td>Optimasi Cabang Utama</td>
-                <td>Jadikan cabang di Jawa Barat sebagai benchmark, lakukan sharing strategi antar cabang, dan perkuat program loyalitas pelanggan di cabang-cabang dengan traffic tinggi.</td>
-            </tr>
-            <tr>
-                <td>5.</td>
-                <td>Peningkatan Profitabilitas di Wilayah Timur</td>
-                <td>Lakukan riset lebih dalam untuk wilayah dengan kontribusi rendah, sesuaikan strategi pemasaran dan logistik agar profitabilitas di wilayah timur meningkat.</td>
-            </tr>
-            <tr>
-                <td>6.</td>
-                <td>Diversifikasi Portofolio Produk</td>
-                <td>Tingkatkan pengembangan produk non-psycholeptics seperti vitamin, suplemen, dan produk herbal. Lakukan edukasi pasar agar penjualan kategori lain ikut meningkat.</td>
-            </tr>
-            <tr>
-                <td>7.</td>
-                <td>Pemanfaatan Dashboard & Data Insight</td>
-                <td>Maksimalkan penggunaan filter control dan snapshot data untuk monitoring performa per cabang, produk, dan wilayah. Otomatiskan laporan tren musiman untuk membantu pengambilan keputusan lebih cepat.</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
+            <h2>Analisis & Rekomendasi Bisnis</h2>
+            <p>Berdasarkan analisis data yang telah dilakukan, ditemukan beberapa wawasan kunci yang mengarah pada rekomendasi strategis untuk meningkatkan kinerja bisnis Kimia Farma. Rekomendasi ini dirancang untuk mengatasi tantangan spesifik dan memanfaatkan peluang yang ada.</p>
+            
+            <table class="recommendation-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Area Fokus</th>
+                        <th>Tindakan yang Direkomendasikan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td>Stabilitas Laba Bersih</td>
+                        <td>Lakukan evaluasi menyeluruh terhadap strategi profit selama pandemi, optimalkan biaya distribusi dan operasional, serta siapkan strategi adaptif untuk merespon perubahan perilaku konsumen.</td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td>Perbaikan Proses Transaksi</td>
+                        <td>Audit cabang dengan jumlah transaksi rendah, tingkatkan pelatihan staf frontline, perbaiki sistem pembayaran digital agar lebih cepat dan mudah digunakan.</td>
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td>Ekspansi Wilayah Baru</td>
+                        <td>Fokus pada provinsi dengan potensi pertumbuhan menengah seperti Sumatera Utara, Jawa Tengah, dan Sulawesi. Perkuat promosi lokal dan penetrasi pasar dengan strategi yang sesuai karakteristik daerah.</td>
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td>Optimasi Cabang Utama</td>
+                        <td>Jadikan cabang di Jawa Barat sebagai benchmark, lakukan sharing strategi antar cabang, dan perkuat program loyalitas pelanggan di cabang-cabang dengan traffic tinggi.</td>
+                    </tr>
+                    <tr>
+                        <td>5.</td>
+                        <td>Peningkatan Profitabilitas di Wilayah Timur</td>
+                        <td>Lakukan riset lebih dalam untuk wilayah dengan kontribusi rendah, sesuaikan strategi pemasaran dan logistik agar profitabilitas di wilayah timur meningkat.</td>
+                    </tr>
+                    <tr>
+                        <td>6.</td>
+                        <td>Diversifikasi Portofolio Produk</td>
+                        <td>Tingkatkan pengembangan produk non-psycholeptics seperti vitamin, suplemen, dan produk herbal. Lakukan edukasi pasar agar penjualan kategori lain ikut meningkat.</td>
+                    </tr>
+                    <tr>
+                        <td>7.</td>
+                        <td>Pemanfaatan Dashboard & Data Insight</td>
+                        <td>Maksimalkan penggunaan filter control dan snapshot data untuk monitoring performa per cabang, produk, dan wilayah. Otomatiskan laporan tren musiman untuk membantu pengambilan keputusan lebih cepat.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
 
     <footer>
