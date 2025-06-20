@@ -1,4 +1,4 @@
-/* style.css - Gemini Dark Mode Inspired (Final Version) */
+/* style.css - Final Version with Gemini Dark Mode & Tech Logos */
 
 /* == 1. PALET WARNA & FONT DASAR (GEMINI STYLE) == */
 :root {
@@ -177,55 +177,49 @@ pre code {
     color: var(--accent-blue);
 }
 
-/* == 8. TECH STACK LOGO SECTION == */
-.tech-stack {
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 1px solid var(--border-color);
-}
-
-.tech-stack h3 {
-    text-align: center;
-    font-weight: 500;
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin-bottom: 30px;
-}
-
-.logo-grid {
+/* == 8. BAGIAN BARU: TECH STACK / LOGO TOOLS == */
+.tech-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    gap: 30px 40px; /* Jarak vertikal dan horizontal */
+    gap: 30px;
+    margin-top: 40px;
 }
 
-.logo-item {
+.tech-item {
+    background: var(--bg-surface);
+    border-radius: 12px;
+    padding: 20px 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px; /* Jarak antara logo dan teks */
-    transition: transform 0.2s ease-in-out;
-    width: 100px; /* Memberi lebar tetap agar rapi */
+    justify-content: center;
+    text-align: center;
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.logo-item:hover {
-    transform: scale(1.1);
+.tech-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.logo-item svg {
-    width: 48px;
-    height: 48px;
-    fill: var(--text-secondary); /* Warna abu-abu untuk ikon */
-    transition: fill 0.2s ease-in-out;
+.tech-item img {
+    height: 50px; /* Atur ukuran logo */
+    max-width: 100px;
+    margin-bottom: 15px;
+    /* Efek filter untuk logo non-SVG agar lebih menyatu dengan dark mode */
+    filter: brightness(0) invert(1) opacity(0.8);
+}
+/* Khusus untuk logo SVG, kita tidak perlu filter karena bisa diwarnai */
+.tech-item img[src$=".svg"] {
+    filter: none;
 }
 
-.logo-item:hover svg {
-    fill: var(--accent-blue); /* Warna biru saat hover */
-}
-
-.logo-item span {
+.tech-item span {
     font-size: 0.9rem;
-    color: var(--text-secondary);
     font-weight: 500;
+    color: var(--text-secondary);
 }
