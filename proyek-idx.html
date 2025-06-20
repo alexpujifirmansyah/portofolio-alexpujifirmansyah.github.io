@@ -85,6 +85,8 @@ CREATE TABLE FactTransaction (
             <h2>Otomatisasi Laporan dengan Stored Procedure</h2>
             <p>Untuk memudahkan tim analisis mendapatkan ringkasan data harian dengan cepat, saya membuat Stored Procedure `DailyTransaction`. Prosedur ini dapat dipanggil dengan parameter rentang tanggal untuk menghasilkan laporan jumlah transaksi dan total nominalnya.</p>
              <pre style="background:#0d1117; color:#c9d1d9; padding:15px; border-radius:5px; overflow-x:auto;"><code>
+--------------- Sql PROCEDURE DailyTransaction --------------- 
+
 CREATE PROCEDURE DailyTransaction
     @start_date DATE,
     @end_date DATE
@@ -106,6 +108,32 @@ END
 
 -- Contoh Eksekusi
 EXEC DailyTransaction '2024-01-01', '2024-01-31'
+
+		     
+--------------- PROCEDURE BalancePerCustomer ---------------
+
+CREATE PROCEDURE BalancePerCustomer
+    @name NVARCHAR(100)
+AS
+BEGIN
+    SELECT 
+        c.Customer_Name,
+        a.Account_Type,
+        a.Balance,
+        a.Balance + SUM(CASE WHEN t.Transaction_Type = 'Deposit' THEN t.amount ELSE -t.amount END) AS CurrentBalance
+    FROM 
+        DimAccount a
+    INNER JOIN DimCustomer c ON a.customer_id = c.Customer_Id
+    LEFT JOIN FactTransaction t ON a.account_id = t.Account_Id
+    WHERE 
+        c.Customer_Name = @name AND
+        a.status = 'active'
+    GROUP BY 
+        c.Customer_Name, a.Account_Type, a.Balance;
+END
+
+EXEC BalancePerCustomer 'SHELLY JUWITA';
+
             </code></pre>
             <p>Video penjelasan proyek ini dapat dilihat di YouTube:</p>
             <!-- Ganti src dengan link EMBED video YouTube Anda -->
